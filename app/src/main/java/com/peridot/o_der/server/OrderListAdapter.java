@@ -21,7 +21,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
 
         TextView order_date;
         TextView cus_Name;
-        TextView cus_Phone;
+        //TextView cus_Phone;
         TextView product_name;
         TextView order_price;
         TextView pickup_time;
@@ -34,7 +34,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
             super(itemView);
 
             cus_Name = itemView.findViewById(R.id.custome_name);
-            cus_Phone = itemView.findViewById(R.id.customer_phone);
+           //cus_Phone = itemView.findViewById(R.id.customer_phone);
             product_name = itemView.findViewById(R.id.product_name);
             pickup_time_text = itemView.findViewById(R.id.pickup_text);
             pickup_time = itemView.findViewById(R.id.pickup_time);
@@ -48,8 +48,9 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
 
         public void setItem(OrderList item) {
             cus_Name.setText(item.getName());
-            cus_Phone.setText(item.getMobile());
+            order_date.setText(item.getOrder_date());
             product_name.setText(item.getProduct_name());
+            order_price.setText(item.getPrice());
             pickup_time.setText(item.getPickUp_time());
             Memo.setText(item.getMemo());
         }

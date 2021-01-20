@@ -9,17 +9,20 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.pedro.library.AutoPermissions;
+import com.pedro.library.AutoPermissionsListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class LoginPage extends AppCompatActivity {
+public class LoginPage extends AppCompatActivity implements AutoPermissionsListener {
 
     TextView idText;
     TextView pwText;
@@ -61,6 +64,7 @@ public class LoginPage extends AppCompatActivity {
                 overridePendingTransition(R.anim.login_page_slide_in_right,R.anim.login_page_slide_out_left);
             }
         });
+        AutoPermissions.Companion.loadAllPermissions(this,101);
     }
     private void LogInCheck(String ID, String PW){
         String userID;
@@ -113,6 +117,23 @@ public class LoginPage extends AppCompatActivity {
         LogInRequest loginRequest=new LogInRequest(ID,PW,responseListener);
         RequestQueue queue= Volley.newRequestQueue(LoginPage.this);
         queue.add(loginRequest);
+
+
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        AutoPermissions.Companion.parsePermissions(this,requestCode,permissions,this);
+    }
+
+    @Override
+    public void onDenied(int i, String[] strings) {
+
+    }
+
+    @Override
+    public void onGranted(int i, String[] strings) {
+
+    }
 }

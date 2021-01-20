@@ -18,7 +18,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/menuImage"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 />
@@ -57,15 +57,14 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/button2"
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/main_page_rect_login"
-                    android:text="수정"
+                <android.widget.Button
+                    android:id="@+id/menu_update_btn"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/pencil14"
                     android:textAllCaps="false"
                     android:textSize="14sp"
-                    app:backgroundTint="@color/mainColor" />
+                    app:backgroundTintMode="src_over" />
             </LinearLayout>
 
         </LinearLayout>

@@ -1,8 +1,9 @@
 package com.peridot.o_der.server;
 
-import com.android.volley.AuthFailureError;
+
 import com.android.volley.Response;
-import com.android.volley.toolbox.StringRequest;
+import com.android.volley.request.StringRequest;
+
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -22,7 +23,7 @@ public class LogInRequest extends StringRequest {
     }
 
     @Override
-    protected Map<String, String> getParams() throws AuthFailureError {
+    protected Map<String, String> getParams()  {
         return map;
     }
 }
