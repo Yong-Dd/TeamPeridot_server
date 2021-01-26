@@ -1,6 +1,7 @@
 package com.peridot.o_der.server;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,13 +43,14 @@ public class TeaAdapter extends RecyclerView.Adapter<TeaAdapter.ViewHolder> {
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView teaid;
         TextView teaname;
         TextView teaprice;
         ImageView teaImage;
 
         public ViewHolder(View itemView) {
             super(itemView);
-
+            teaid = itemView.findViewById(R.id.teaId);
             teaname = itemView.findViewById(R.id.teaname);
             teaprice = itemView.findViewById(R.id.teaprice);
             teaImage = itemView.findViewById(R.id.menuImage);
@@ -60,18 +62,27 @@ public class TeaAdapter extends RecyclerView.Adapter<TeaAdapter.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     //해당 position외 다른 메뉴 position 값이 있으면 ItemSetting이 제대로 동작안함
+                    String id = teaid.getText().toString(); //item_id 가져오기
+                    String tableName = "TEA";
                     ((ServerMenuPage)ServerMenuPage.server_context_menu).dessert_position=-1;
                     ((ServerMenuPage)ServerMenuPage.server_context_menu).coffee_position=-1;
                     Intent intent = new Intent(itemView.getContext(), ServerMenuUpdate.class);
+                    intent.putExtra("ID",id);//업데이트 및 삭제할 때 가져오기
+                    intent.putExtra("tableName", tableName);
                     ContextCompat.startActivity(itemView.getContext(), intent, null);
                 }
             });
         }
 
         public void setItem(Tea item) {
+            teaid.setText(item.getId());
             teaname.setText(item.getName());
             teaprice.setText(item.getPrice());
-            Glide.with(view).load("http://teamperidot.dothome.co.kr/"+item.getImgPath()).into(teaImage);
+            if(!item.getImgPath().equals("null")) {
+                Glide.with(view).load("http://teamperidot.dothome.co.kr/" + item.getImgPath()).into(teaImage);
+            }else{
+                teaImage.setImageResource(R.drawable.standard_icon);
+            }
         }
     }
     public void addItem(Tea item) {

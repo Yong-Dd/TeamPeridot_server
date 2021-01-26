@@ -3,6 +3,7 @@ package com.peridot.o_der.server;
 //커피 리사이클러뷰, 이름, 가격
 
 public class Coffee {
+    String id;
     String name;
     String price;
     String imgPath;
@@ -15,10 +16,19 @@ public class Coffee {
         this.imgPath = imgPath;
     }
 
-    public Coffee(String name, String price, String imgPath) {
+    public Coffee(String id, String name, String price, String imgPath) {
         this.name = name;
         this.price = price;
         this.imgPath = imgPath;
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {

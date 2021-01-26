@@ -49,7 +49,7 @@ public class ServerMenuPlus extends AppCompatActivity  {
     RadioButton Tea_btn;
 
     String img_path;
-    final static  private String URL = "http://teamperidot.dothome.co.kr/server_insert_img.php";
+    final static private String URL = "http://teamperidot.dothome.co.kr/server_insert_img.php";
     static long imagename;
 
     static String tableName;
@@ -61,8 +61,6 @@ public class ServerMenuPlus extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.server_menu_plus);
 
-
-        //임시추가
         nameEditText = findViewById(R.id.nameEditText);
         priceEditText = findViewById(R.id.priceEditText);
         menuChoice = findViewById(R.id.menuChoice);
@@ -77,7 +75,8 @@ public class ServerMenuPlus extends AppCompatActivity  {
         name="";
         price="";
 
-        coffee_image = findViewById(R.id.coffee_image);
+        //사진 클릭시 사진 선택하도록 나옴
+       coffee_image = findViewById(R.id.coffee_image);
         coffee_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,6 +126,11 @@ public class ServerMenuPlus extends AppCompatActivity  {
                 requestQueue.add(smpr);
 
                 Toast.makeText(getApplicationContext(),"메뉴 추가가 요청되었습니다.",Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(getApplicationContext(),ServerMenuPage.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                finish();
+                startActivity(intent);
             }
         });
 

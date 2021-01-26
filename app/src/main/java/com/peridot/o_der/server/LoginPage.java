@@ -99,6 +99,7 @@ public class LoginPage extends AppCompatActivity implements AutoPermissionsListe
                         intent.putExtra("customerName", customerName);
                         intent.putExtra("customerId",sellerId);
                         startActivity(intent);
+                        overridePendingTransition(R.anim.login_page_slide_in_right,R.anim.login_page_slide_out_left);
 
 
                     }

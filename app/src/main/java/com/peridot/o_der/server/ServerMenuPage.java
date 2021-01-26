@@ -22,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.error.VolleyError;
 import com.android.volley.request.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,6 +59,9 @@ public class ServerMenuPage extends AppCompatActivity {
     //원단위 구별 위해
     final DecimalFormat priceFormat = new DecimalFormat("###,###");
 
+    RecyclerView coffeerecyclerView;
+    RecyclerView disertrecyclerView;
+    RecyclerView tearecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +78,9 @@ public class ServerMenuPage extends AppCompatActivity {
 
         server_context_menu = this;
 
-        RecyclerView coffeerecyclerView = findViewById(R.id.coffeerecyclerView);
-        RecyclerView disertrecyclerView = findViewById(R.id.disertrecyclerView);
-        RecyclerView tearecyclerView = findViewById(R.id.tearecyclerView);
+        coffeerecyclerView = findViewById(R.id.coffeerecyclerView);
+        disertrecyclerView = findViewById(R.id.disertrecyclerView);
+        tearecyclerView = findViewById(R.id.tearecyclerView);
 
         LinearLayoutManager layoutManager =
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
@@ -114,7 +118,7 @@ public class ServerMenuPage extends AppCompatActivity {
                         String coffeeImage = jsonInnerObject.getString("COFFEE_IMG");
 
                         Log.d("coffeeName", coffeeName + "," + coffeeId);
-                        coffeeAdapter.addItem(new Coffee(coffeeName, coffeePrice, coffeeImage));
+                        coffeeAdapter.addItem(new Coffee(Integer.toString(coffeeId),coffeeName, coffeePrice, coffeeImage));
 
                         //MenuFragment 전달 위함(리싸이클러뷰의 position과 i가 일치하게 됨)
                         db_coffeePrice.add(i,inDB_coffeePrice);
@@ -216,7 +220,7 @@ public class ServerMenuPage extends AppCompatActivity {
                         //디저트 이미지
                         String dessertImage = jsonInnerObject.getString("DESSERT_IMG");
 
-                        disertAdapter.addItem(new Disert(dessertName, dessertPrice,dessertImage));
+                        disertAdapter.addItem(new Disert(Integer.toString(dessertId),dessertName, dessertPrice,dessertImage));
 
                         //MenuFragment 전달 위함(리싸이클러뷰의 position과 i가 일치하게 됨)
                         db_dessertPrice.add(i,inDB_dessertPrice);
@@ -302,7 +306,7 @@ public class ServerMenuPage extends AppCompatActivity {
                         String teaImage = jsonInnerObject.getString("TEA_IMG");
 
                         Log.d("teatea","tea:"+teaName+","+teaPrice);
-                        teaAdapter.addItem(new Tea(teaName, teaPrice,teaImage));
+                        teaAdapter.addItem(new Tea(Integer.toString(teaId),teaName, teaPrice,teaImage));
 
                         //MenuFragment 전달 위함(리싸이클러뷰의 position과 i가 일치하게 됨)
                         db_teaPrice.add(i,inDB_teaPrice);
@@ -353,11 +357,13 @@ public class ServerMenuPage extends AppCompatActivity {
             }
         });
 
+        //메뉴 추가 버튼
         Button menu_plus_btn = findViewById(R.id.menu_plus_btn);
         menu_plus_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent2 = new Intent(getApplicationContext(),ServerMenuPlus.class);
+                intent2.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent2);
             }
         });
@@ -367,6 +373,7 @@ public class ServerMenuPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+                overridePendingTransition(R.anim.login_page_slide_in_left,R.anim.login_page_slide_out_right);
             }
         });
     }
@@ -377,16 +384,56 @@ public class ServerMenuPage extends AppCompatActivity {
 
         String menuName = "";
 
+        final String mainUrl = "http://teamperidot.dothome.co.kr/";
+
         if(coffee>-1){
+            //메뉴 이름
             menuName = coffeeAdapter.getItem(coffee).getName();
+
+
+            //가격 설정
             count2 = db_coffeePrice.get(coffee);
+
+            //이미지 설정
+            String image = coffeeAdapter.getItem(coffee).getImgPath();
+            String url = mainUrl+image;
+
+            if (!image.equals("null")) {
+                ((ServerMenuUpdate)ServerMenuUpdate.server_context_menu_update).ImageSetting(url);
+            }else{
+                ((ServerMenuUpdate)ServerMenuUpdate.server_context_menu_update).ImageSetting(null);
+            }
+            //ServerMenuUpdate에 정보전달하기 손대지 않고 하는 방법으로 생각해보쟈
         }else if(dessert>-1){
+            //메뉴 이름
             menuName = disertAdapter.getItem(dessert).getName();
+
+            //가격 설정
             count2 = db_dessertPrice.get(dessert);
+
+            //이미지 설정
+            String image = disertAdapter.getItem(dessert).getImgPath();
+            String url = mainUrl+image;
+            if (!image.equals("null")) {
+                ((ServerMenuUpdate)ServerMenuUpdate.server_context_menu_update).ImageSetting(url);
+            }else{
+                ((ServerMenuUpdate)ServerMenuUpdate.server_context_menu_update).ImageSetting(null);
+            }
         }else if(tea>-1){
+            //메뉴 이름
             menuName = teaAdapter.getItem(tea).getName();
+
+            //가격 설정
             count2 = db_teaPrice.get(tea);
 
+            //이미지 설정
+            String image = teaAdapter.getItem(tea).getImgPath();
+            String url = mainUrl+image;
+            if (!image.equals("null")) {
+                ((ServerMenuUpdate)ServerMenuUpdate.server_context_menu_update).ImageSetting(url);
+            }else{
+                ((ServerMenuUpdate)ServerMenuUpdate.server_context_menu_update).ImageSetting(null);
+            }
         }
         //String price_format = priceFormat.format(count2);
         //String price_text = price_format+"원"+" 담기";
@@ -394,4 +441,16 @@ public class ServerMenuPage extends AppCompatActivity {
         ((ServerMenuUpdate)ServerMenuUpdate.server_context_menu_update).nameEditText.setText(menuName);
     } // 리사이클러뷰 내용을 update페이지에 동기화
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        coffeeAdapter.notifyDataSetChanged();
+        coffeerecyclerView.setAdapter(coffeeAdapter);
+
+        disertAdapter.notifyDataSetChanged();
+        disertrecyclerView.setAdapter(disertAdapter);
+
+        teaAdapter.notifyDataSetChanged();
+        tearecyclerView.setAdapter(teaAdapter);
+    }
 }

@@ -42,6 +42,7 @@ public class CoffeeAdapter extends RecyclerView.Adapter<CoffeeAdapter.ViewHolder
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView coffeename;
         TextView coffeeprice;
+        TextView coffeeId;
         ImageView coffeeImage;
 
         public ViewHolder(View itemView) {
@@ -49,6 +50,7 @@ public class CoffeeAdapter extends RecyclerView.Adapter<CoffeeAdapter.ViewHolder
 
             coffeename = itemView.findViewById(R.id.coffeename);
             coffeeprice = itemView.findViewById(R.id.coffeeprice);
+            coffeeId = itemView.findViewById(R.id.coffeeId);
             coffeeImage = itemView.findViewById(R.id.menuImage);
 
             view = itemView;
@@ -58,19 +60,27 @@ public class CoffeeAdapter extends RecyclerView.Adapter<CoffeeAdapter.ViewHolder
                 @Override
                 public void onClick(View v) {
                     //해당 position외 다른 메뉴 position 값이 있으면 ItemSetting이 제대로 동작안함
+                    String id = coffeeId.getText().toString();
+                    String tableName = "COFFEE";
                     ((ServerMenuPage)ServerMenuPage.server_context_menu).dessert_position=-1;
                     ((ServerMenuPage)ServerMenuPage.server_context_menu).tea_position=-1;
                     Intent intent = new Intent(itemView.getContext(), ServerMenuUpdate.class);
+                    intent.putExtra("ID", id); //업데이트 및 삭제할 때 가져오기
+                    intent.putExtra("tableName",tableName);
                     ContextCompat.startActivity(itemView.getContext(), intent, null);
                 }
             });
         }
 
         public void setItem(Coffee item) {
+            coffeeId.setText(item.getId());
             coffeename.setText(item.getName());
             coffeeprice.setText(item.getPrice());
-
-            Glide.with(view).load("http://teamperidot.dothome.co.kr/"+item.getImgPath()).into(coffeeImage);
+            if(!item.getImgPath().equals("null")) {
+                Glide.with(view).load("http://teamperidot.dothome.co.kr/" + item.getImgPath()).into(coffeeImage);
+            }else{
+                coffeeImage.setImageResource(R.drawable.standard_icon);
+            }
         }
     }
     public void addItem(Coffee item) {

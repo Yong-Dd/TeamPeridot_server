@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "605020665827",
+    "project_id": "oderapp-750e9",
+    "storage_bucket": "oderapp-750e9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:605020665827:android:689b1d8f36c7ea804dd2d6",
+        "android_client_info": {
+          "package_name": "com.peridot.o_der.server"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "605020665827-3vef23te19h9of6s4qab44vas23sjs90.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWeL6gYd8CR10o6wD7Yg_WDQ9kgaOgBC4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "605020665827-3vef23te19h9of6s4qab44vas23sjs90.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

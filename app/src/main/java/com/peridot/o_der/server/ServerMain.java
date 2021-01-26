@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +19,9 @@ import com.android.volley.Response;
 import com.android.volley.error.VolleyError;
 import com.android.volley.request.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,18 +34,28 @@ import java.util.Map;
 public class ServerMain extends AppCompatActivity {
 
     final DecimalFormat priceFormat = new DecimalFormat("###,###");
+    RecyclerView recyclerView;
+    OrderListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.server_main);
 
-        RecyclerView recyclerView = findViewById(R.id.orderList_recycleView);
+        recyclerView = findViewById(R.id.orderList_recycleView);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        OrderListAdapter adapter = new OrderListAdapter();
+        adapter = new OrderListAdapter();
 
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(this,
+                new OnSuccessListener<InstanceIdResult>() {
+                    @Override
+                    public void onSuccess(InstanceIdResult instanceIdResult) {
+                        String token = instanceIdResult.getToken();
+                        println("등록 id : " + token);
+                    }
+                });
 
 
         //커피 리싸이클러뷰 db연결
@@ -60,6 +75,8 @@ public class ServerMain extends AppCompatActivity {
 
                         jsonInnerObject = new JSONObject(jsonArray.get(i).toString());
 
+                        int orderId = jsonInnerObject.getInt("ORDER_ID");
+
                         //주문자 식별 ID
                         String cusName = jsonInnerObject.getString("CUSTOMER_NAME");
 
@@ -78,7 +95,7 @@ public class ServerMain extends AppCompatActivity {
                         String orderPrice = price + "원";
 
                         //어뎁터등록
-                        adapter.addItem(new OrderList(cusName,OrderDate,OrderMenu,orderPrice,PickupTime,Order_Memo));
+                        adapter.addItem(new OrderList(orderId,cusName,OrderDate,OrderMenu,orderPrice,PickupTime,Order_Memo));
 
                     }
                     recyclerView.setAdapter(adapter);
@@ -106,7 +123,7 @@ public class ServerMain extends AppCompatActivity {
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 //애니메이션 효과
-                overridePendingTransition(R.anim.login_page_slide_in_right, R.anim.login_page_slide_out_left);
+                overridePendingTransition(R.anim.login_page_slide_in_left,R.anim.login_page_slide_out_right);
             }
         });
 
@@ -121,6 +138,34 @@ public class ServerMain extends AppCompatActivity {
                 overridePendingTransition(R.anim.login_page_slide_in_right, R.anim.login_page_slide_out_left);
             }
         });
+    }
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        if(intent != null) {
+            showDialog();
+        }
+    }
+
+    public void showDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("주문");
+        builder.setMessage("주문이 도착했습니다");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent3 = new Intent(getApplicationContext(),ServerMain.class);
+                intent3.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                finish();
+                startActivity(intent3);
+            }
+        });
+        builder.show();
+    }
+
+    public void println(String message) {
+        Log.d("Main", message);
     }
 
 }
