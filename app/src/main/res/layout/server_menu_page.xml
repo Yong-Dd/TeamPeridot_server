@@ -14,61 +14,51 @@
         android:layout_height="0dp"
         android:layout_weight="0.15">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            app:srcCompat="@drawable/logo_base_color" />
-
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/textView"
+                app:layout_constraintHorizontal_bias="0.098"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.482"
+                app:srcCompat="@drawable/logo_base_color" />
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="64dp"
-                android:layout_marginLeft="64dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="-4dp"
-                android:layout_marginRight="-4dp"
-                android:layout_marginBottom="10dp"
                 android:text="메뉴"
                 android:textColor="#695653"
-                android:textSize="40sp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+                android:textSize="40sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/close_btn"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginEnd="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="48dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
                 android:background="@drawable/xbutton_black"
                 app:backgroundTint="#00FFFFFF"
-                app:backgroundTintMode="src_over" />
-        </RelativeLayout>
+                app:backgroundTintMode="src_over"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.888"
+                app:layout_constraintStart_toEndOf="@+id/textView"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 

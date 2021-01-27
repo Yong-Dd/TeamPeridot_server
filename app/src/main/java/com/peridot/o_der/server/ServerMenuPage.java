@@ -399,9 +399,9 @@ public class ServerMenuPage extends AppCompatActivity {
             String url = mainUrl+image;
 
             if (!image.equals("null")) {
-                ((ServerMenuUpdate)ServerMenuUpdate.server_context_menu_update).ImageSetting(url);
+                ((ServerMenuUpdate)ServerMenuUpdate.server_context_menu_update).ImageSetting(url,image);
             }else{
-                ((ServerMenuUpdate)ServerMenuUpdate.server_context_menu_update).ImageSetting(null);
+                ((ServerMenuUpdate)ServerMenuUpdate.server_context_menu_update).ImageSetting(null,null);
             }
             //ServerMenuUpdate에 정보전달하기 손대지 않고 하는 방법으로 생각해보쟈
         }else if(dessert>-1){
@@ -415,9 +415,9 @@ public class ServerMenuPage extends AppCompatActivity {
             String image = disertAdapter.getItem(dessert).getImgPath();
             String url = mainUrl+image;
             if (!image.equals("null")) {
-                ((ServerMenuUpdate)ServerMenuUpdate.server_context_menu_update).ImageSetting(url);
+                ((ServerMenuUpdate)ServerMenuUpdate.server_context_menu_update).ImageSetting(url,image);
             }else{
-                ((ServerMenuUpdate)ServerMenuUpdate.server_context_menu_update).ImageSetting(null);
+                ((ServerMenuUpdate)ServerMenuUpdate.server_context_menu_update).ImageSetting(null,null);
             }
         }else if(tea>-1){
             //메뉴 이름
@@ -430,9 +430,9 @@ public class ServerMenuPage extends AppCompatActivity {
             String image = teaAdapter.getItem(tea).getImgPath();
             String url = mainUrl+image;
             if (!image.equals("null")) {
-                ((ServerMenuUpdate)ServerMenuUpdate.server_context_menu_update).ImageSetting(url);
+                ((ServerMenuUpdate)ServerMenuUpdate.server_context_menu_update).ImageSetting(url,image);
             }else{
-                ((ServerMenuUpdate)ServerMenuUpdate.server_context_menu_update).ImageSetting(null);
+                ((ServerMenuUpdate)ServerMenuUpdate.server_context_menu_update).ImageSetting(null,null);
             }
         }
         //String price_format = priceFormat.format(count2);

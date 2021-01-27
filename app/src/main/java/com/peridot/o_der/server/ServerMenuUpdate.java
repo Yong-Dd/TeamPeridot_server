@@ -49,7 +49,8 @@ public class ServerMenuUpdate extends AppCompatActivity {
     static String tableName;
     static String name;
     static String price;
-    String img_path;
+    static String img_path;
+    String img_exist;
 
 
     @Override
@@ -65,6 +66,7 @@ public class ServerMenuUpdate extends AppCompatActivity {
         menuImage = findViewById(R.id.coffee_image);
         itemid = findViewById(R.id.itemid);
 
+        img_exist = "";
         img_path = "";
         imagename = 0;
         tableName="";
@@ -116,11 +118,15 @@ public class ServerMenuUpdate extends AppCompatActivity {
                 smpr.addStringParam("price", price);
                 smpr.addStringParam("tableName", tableName);
                 //이미지 파일 추가
+                    //사진을 선택했음
                 if(!img_path.equals("")) {
                  Log.d("insertDB","사진 있음");
+                 img_exist = null;
                  smpr.addFile("img", img_path);
-
+                 smpr.addStringParam("existImage",img_exist);
+                    //사진을 선택하지 않았음
                 }else if(img_path.equals("") || img_path==null || img_path.equals("null")){
+                    smpr.addStringParam("existImage",img_exist);
                     Log.d("insertDB","사진 없음");
                   smpr.addFile("img", null);
                 }
@@ -192,9 +198,10 @@ public class ServerMenuUpdate extends AppCompatActivity {
         });
     }
 
-    public void ImageSetting(String ImagePath){
+    public void ImageSetting(String ImagePath,String dbPath){
         if(ImagePath!=null) {
             Glide.with(this).load(ImagePath).into(menuImage);
+            img_exist = dbPath;
         }else if(ImagePath == null){
             menuImage.setImageResource(R.drawable.coffee_icon);
         }

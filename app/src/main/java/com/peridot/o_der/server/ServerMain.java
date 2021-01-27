@@ -79,7 +79,8 @@ public class ServerMain extends AppCompatActivity {
 
                         //주문자 식별 ID
                         String cusName = jsonInnerObject.getString("CUSTOMER_NAME");
-
+                        //주문자 전화번호
+                        String tel = jsonInnerObject.getString("TEL");
                         //주문 메뉴
                         String OrderMenu = jsonInnerObject.getString("ORDER_MENU");
                         //주문 날짜
@@ -95,7 +96,7 @@ public class ServerMain extends AppCompatActivity {
                         String orderPrice = price + "원";
 
                         //어뎁터등록
-                        adapter.addItem(new OrderList(orderId,cusName,OrderDate,OrderMenu,orderPrice,PickupTime,Order_Memo));
+                        adapter.addItem(new OrderList(orderId,cusName,tel,OrderDate,OrderMenu,orderPrice,PickupTime,Order_Memo));
 
                     }
                     recyclerView.setAdapter(adapter);
